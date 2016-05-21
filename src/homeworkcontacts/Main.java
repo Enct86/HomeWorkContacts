@@ -49,7 +49,7 @@ public class Main {
                             byte[] bytes = line.getBytes();
                             fos.write(bytes);
                             fos.write('\n');
-                            
+
                         }
                     } catch (Exception e) {
                         System.err.println("Error" + e);
@@ -75,21 +75,30 @@ public class Main {
 
                     break;
                 case 3:
-                    System.out.println("");
-                    Scanner scan3  = new Scanner(System.in);
+                    System.out.println("Enter contact file to view");
+                    Scanner scan3 = new Scanner(System.in);
                     String input3 = scan3.nextLine();
                     try {
-                        File[] listFiles = contactdir.listFiles();
-                        if (listFiles != null) {
-                            for (File file : listFiles) {
+                        File[] listFiles2 = contactdir.listFiles();
+                        if (listFiles2 != null) {
+                            for (File file : listFiles2) {
+                                BufferedReader br1 = new BufferedReader(new FileReader(file));
                                 if (file.getName().equals(input3)) {
-                                    
+                                    System.out.println(file.getName());
+                                    String S = null;
+                                    while ((S = br1.readLine()) != null) {
+                                        System.out.println(S);
+                                    }
+                                    br1.close();
                                 }
                             }
                         }
                     } catch (Exception e) {
                         System.err.println("Error" + e);
                     }
+                    break;
+                case 4:
+
             }
 
         } while (i != 5);
