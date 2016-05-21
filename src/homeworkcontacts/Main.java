@@ -98,10 +98,32 @@ public class Main {
                     }
                     break;
                 case 4:
+                    System.out.println("Enter contact file to delete");
+                    Scanner scan4 = new Scanner(System.in);
+                    String input4 = scan4.nextLine();
+                    try {
+                        File[] listFiles3 = contactdir.listFiles();
+                        if (listFiles3 != null) {
+                            for (File file : listFiles3) {
+                                BufferedReader br2 = new BufferedReader(new FileReader(file));
+                                if (file.getName().equals(input4)) {
 
+                                    if (file.delete()) {
+                                        System.out.println("DELETED");
+                                    }
+
+                                    br2.close();
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error" + e);
+                    }
+                    break;
             }
 
-        } while (i != 5);
+        } while (i
+                != 5);
 
     }
 
