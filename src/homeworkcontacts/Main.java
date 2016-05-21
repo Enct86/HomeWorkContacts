@@ -24,47 +24,56 @@ public class Main {
         Scanner scr1 = new Scanner(System.in);
         int i = 0;
         File contactdir = new File("contacts");
-
         if (!contactdir.exists()) {
             contactdir.mkdir();
         }
+        long namelong = System.currentTimeMillis();
+        String namestring = Long.toString(namelong);
+        File filecontact = new File("./" + contactdir + "./" + namestring + ".txt");
+
+        Scanner scandata = new Scanner(System.in);
+        FileOutputStream fos = new FileOutputStream(filecontact, true);
+
+        FileInputStream fis = new FileInputStream(filecontact);
         do {
             System.out.printf("1 - Add new contact, \n2 - View all contacts\n3 - Show contact \n4 - Delete contact\n5 - Exit\n");
             String input1 = scr1.nextLine();
             i = Integer.parseInt(input1);
             switch (i) {
                 case 1:
-                    long namelong = System.currentTimeMillis();
-                    String namestring = Long.toString(namelong);
-                    File filecontact = new File("./" + contactdir + "./" + namestring + ".txt");
-                    filecontact.createNewFile();
-                    Scanner scandata = new Scanner(System.in);
-                    FileOutputStream fos = new FileOutputStream(filecontact, true);
-                    System.out.printf("Enter - NAME\nTelephone number\nEmail\nSkype\nAt When finish type end\n");
-                    while (true) {
-                        String line = scandata.nextLine();
-                        if ("end".equals(line)) {
-                            break;
+                    try {
+                        namelong = System.currentTimeMillis();
+                        filecontact.createNewFile();
+                        System.out.printf("Enter - NAME\nTelephone number\nEmail\nSkype\nAt When finish type end\n");
+                        while (true) {
+                            String line = scandata.nextLine();
+                            if ("end".equals(line)) {
+                                break;
+                            }
+                            byte[] bytes = line.getBytes();
+                            fos.write(bytes);
+                            fos.write('\n');
                         }
-                        byte[] bytes = line.getBytes();
-                        fos.write(bytes);
-                        fos.write('\n');
+                    } catch (Exception e) {
+                        System.err.println("Error" + e);
                     }
                     fos.close();
+                    break;
                 case 2:
                     try {
-                        FileInputStream fis = new FileInputStream(contactdir);
                         File[] listFiles = contactdir.listFiles();
                         if (listFiles != null) {
                             for (File file : listFiles) {
                                 if (file.isFile()) {
-                                    System.out.printf(file.getName());
+                                    System.out.println(file.getName());
                                 }
                             }
                         }
-                    } catch (FileNotFoundException e) {
+                    } catch (Exception e) {
                         System.err.println("Error" + e);
                     }
+
+                case 3:
             }
 
         } while (i != 5);
